@@ -4,7 +4,7 @@
   <div class="container mx-auto p-4">
     <h1 class="text-2xl font-bold mb-4">Edit Task</h1>
 
-    <form action="{{ route('Task.update', [$task->id]) }}" method="POST" class="max-w-sm mx-auto bg-white p-6 rounded-lg ">
+    <form action="{{ route('TodayTask.update', [$task->id]) }}" method="POST" class="max-w-sm mx-auto bg-white p-6 rounded-lg ">
       @csrf
       @method('PUT')
 
@@ -58,7 +58,7 @@
             <!-- Tombol Batal -->
             <button type="button" onclick="window.history.back();"
               class="w-1/2 text-black bg-red-500 hover:bg-red-600 focus:ring-4 focus:ring-red-200
-                 font-medium rounded-lg text-sm px-5 py-2.5 ml-2 dark:bg-red-700 
+                 font-medium rounded-lg text-sm px-5 py-2.5 ml-2 dark:bg-red-700
                  dark:hover:bg-red-600 dark:focus:ring-red-800">
               Batal
             </button>

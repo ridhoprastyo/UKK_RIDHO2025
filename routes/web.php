@@ -9,5 +9,10 @@ Route::get('/', function () {
 });
 
 
+Route::resource('/Task', Task_Controller::class);
 
+Route::patch('/Task/{id}/done', [Task_Controller::class, 'markAsDone'])->name('Task.done');
 
+Route::resource('/TodayTask', TodayTask_Controller::class);
+
+Route::patch('/TodayTask/{id}/done', [TodayTask_Controller::class, 'markAsDone'])->name('TodayTask.done');

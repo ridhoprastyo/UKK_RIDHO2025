@@ -11,16 +11,16 @@
 
   <!-- Sidebar -->
   <aside
-    class="w-64 min-h-screen bg-gradient-to-b from-[#FA812F] to-[#FF9F43] text-black px-6 py-8 fixed top-0 left-0 shadow-lg">
-    <div class="flex items-center gap-2 mb-10">
-      <h1 class="text-2xl font-bold tracking-wide px-10">To Do App</h1>
+    class="w-64 min-h-screen bg-[#FA812F]  text-black px-6 py-8 fixed top-0 left-0 shadow-lg">
+    <div class="flex items-center gap-2 mb-8">
+      <h1 class="text-2xl font-bold tracking-wide px-14">To Do</h1>
     </div>
 
     <nav>
       <ul class="space-y-4 text-sm font-medium">
         <li>
-          <a href="#"
-            class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-[#FAB12F]  transition duration-200">
+          <a href="{{ route('Task.index') }}"
+            class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-[#FAB12F] transition duration-200">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
               class="bi bi-list-task" viewBox="0 0 16 16">
               <path fill-rule="evenodd"
@@ -34,7 +34,7 @@
           </a>
         </li>
         <li>
-          <a href="#"
+          <a href="{{ route('TodayTask.index') }}"
             class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-[#FAB12F] transition duration-200">
             <svg width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
               <path d="M7.005 3.1a1 1 0 1 1 1.99 0l-.388 6.35a.61.61 0 0 1-1.214 0zM7 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0" />

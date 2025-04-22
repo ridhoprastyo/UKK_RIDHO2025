@@ -8,8 +8,7 @@
     <div class="mb-6">
       <!-- Header and Add Task Button -->
       <div class="flex items-center justify-between mb-4">
-        <h3 class="text-lg font-semibold">On Progress</h3>
-        <a href="#" class="flex items-center text-yellow-600 hover:text-yellow-700">
+        <a href="{{ route('Task.create')}}" class="flex items-center text-yellow-600 hover:text-yellow-700">
           <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 16 16" fill="currentColor">
             <path fill-rule="evenodd"
               d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2" />
@@ -19,11 +18,11 @@
       </div>
 
       <div class="space-y-2">
-        {{-- foreach --}}
-          <div class="flex items-center justify-between p-3 my-3 bg-white rounded-md shadow-md">
+        @foreach ($tasks->whereIn('status', ['not_done', 'on_progress'])->sortByDesc('priority') as $task)
+        <div class="flex items-center justify-between p-3 my-3 bg-white rounded-md shadow-md">
             <div class="flex items-center">
               <!-- Complete Button -->
-              {{-- <button type="button" onclick="openModal('{{ $task->id }}')" --}}
+              <button type="button" onclick="openModal('{{ $task->id }}')"
                 class="text-white bg-[#FA812F] hover:bg-[#FAB12F] font-medium rounded-lg text-sm px-2 py-1 mr-5">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                   class="bi bi-check" viewBox="0 0 16 16">
@@ -33,22 +32,33 @@
               </button>
               <!-- Task Info -->
               <div>
-                <p class="text-gray-800 font-medium text-sm">Ngaji</p>
-                <p class="text-gray-500 text-xs">Juz 29</p>
-                <p class="text-gray-500 text-xs">20 Mei 9090</p>
+                <p class="text-gray-800 font-medium text-sm">{{ $task->task }}</p>
+                <p class="text-gray-500 text-xs">{{ $task->note }}</p>
+                <p class="text-gray-500 text-xs">{{ $task->date }}</p>
+              </div>
+              <div class="mx-8">
+                @switch($task->priority)
+                @case('3')
+                <span class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-red-600/10 ring-inset">High</span>
+                    @break
+                @case('2')
+                <span class="inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-800 ring-1 ring-yellow-600/20 ring-inset">Medium</span>
+                    @break
+                @default
+                <span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-green-600/20 ring-inset">Low</span>
+            @endswitch
               </div>
             </div>
-
             <!-- Action Buttons -->
             <div class="flex space-x-2">
-              <a href="#" class="text-blue-600 hover:text-blue-700">
+              <a href=" {{ route('Task.edit', [$task->id]) }}" class="text-blue-600 hover:text-blue-700">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                   class="bi bi-pencil-fill" viewBox="0 0 16 16">
                   <path
                     d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.5.5 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11z" />
                 </svg>
               </a>
-              <form action="#" method="POST"
+              <form action="{{ route('Task.destroy', [$task->id]) }}" method="POST"
                 onsubmit="return confirm('Hapus task ini?');">
                 @csrf
                 @method('DELETE')
@@ -62,7 +72,7 @@
               </form>
             </div>
           </div>
-        {{-- endforeach --}}
+        @endforeach
       </div>
     </div>
 
@@ -70,7 +80,7 @@
     <div>
       <h3 class="text-lg font-semibold mb-3">Done</h3>
       <div class="space-y-2">
-        {{-- foreach --}}
+        @foreach ($tasks->where('status', 'done') as $task)
           <div class="flex items-center justify-between p-3 bg-gray-100 rounded-md shadow-md">
             <div class="flex items-center">
               <button type="button"
@@ -82,14 +92,14 @@
                 </svg>
               </button>
               <div>
-                <p class="text-gray-600 text-sm">Baca Buku</p>
-                <p class="text-gray-500 text-xs">Buku </p>
-                <p class="text-gray-500 text-xs">20 Juli 2022</p>
+                <p class="text-gray-600 text-sm">{{ $task->task }}</p>
+                <p class="text-gray-500 text-xs">{{ $task->note }}</p>
+                <p class="text-gray-500 text-xs">{{ $task->date }}</p>
               </div>
             </div>
             <div class="flex space-x-2">
               <a href="#" class="text-blue-600 hover:text-blue-700"></a>
-              <form action="#" method="POST"
+              <form action="{{ route('Task.destroy', [$task->id]) }}" method="POST"
                 onsubmit="return confirm('Hapus task ini?');">
                 @csrf
                 @method('DELETE')
@@ -97,7 +107,7 @@
               </form>
             </div>
           </div>
-        {{-- endforeach --}}
+        @endforeach
       </div>
     </div>
   </div>
@@ -105,16 +115,24 @@
   <!-- Modal -->
   <div id="modal" class="fixed hidden inset-0 z-50 items-center justify-center">
     <div class="bg-[#FA812F] rounded-lg shadow-lg w-80 p-6 text-center">
-      <h2 class="text-lg text-white font-semibold mb-4">Tandai Task Selesai?</h2>
-      <p class="text-sm text-white mb-4">Apakah kamu yakin ingin menyelesaikan task ini?</p>
       <form id="modalForm" method="POST">
+        <div class="mb-4">
+            <label for="status" class="block mb-2 text-black-800 font-medium  text-sm">Status:</label>
+            <select id="status"
+              class="block w-full p-2 text-black border border-black rounded-lg bg-white text-base"
+              name="status" required>
+              <option value="not_done" {{ old('status') == 'not_done' ? 'selected' : '' }}>Not done</option>
+              <option value="on_progress" {{ old('status', 'on_progress') == 'on_progress' ? 'selected' : '' }}>On progress</option>
+              <option value="done" {{ old('status') == 'done' ? 'selected' : '' }}>Done</option>
+            </select>
+          </div>
         @csrf
         @method('PATCH')
         <div class="flex justify-center gap-4">
           <button type="button" onclick="closeModal()"
-            class="flex-1 px-4 py-2 text-sm text-white rounded bg-red-500 hover:bg-red-600">Batal</button>
+            class="flex-1 px-4 py-2 text-sm text-black rounded bg-red-500 hover:bg-red-600">Batal</button>
           <button type="submit"
-            class="flex-1 px-4 py-2 text-sm bg-green-500 text-white rounded hover:bg-green-600">Selesai</button>
+            class="flex-1 px-4 py-2 text-sm bg-green-500 text-black rounded hover:bg-green-600">Selesai</button>
         </div>
       </form>
     </div>
@@ -128,8 +146,7 @@
     modal.classList.remove('hidden');
     modal.classList.add('flex');
 
-    // Set URL sesuai dengan route PATCH
-    form.action = `/Task/${taskId}/done`; // HARUS sesuai dengan rute yang kamu define
+    form.action = `/Task/${taskId}/done`;
 
     modal.classList.remove('hidden');
     window.currentTaskId = taskId;
